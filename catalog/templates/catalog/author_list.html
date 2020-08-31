@@ -1,0 +1,31 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1>Author List</h1>
+
+    <!-- 這是新建Author的網頁 -->
+    <a href="{% url 'author_create' %}">Create New Author</a>
+
+    <!-- 在views.py的class AuthorListView定義的get_queryset()
+    會自動傳送一個預設的變數名稱author_list過來，當作list清單網頁的資料 -->
+    
+    {% if author_list %}
+    <ul>
+
+      {% for author in author_list %}
+      <li>
+        <!-- 這是author的detail-view網頁 -->
+        <a href="{{ author.get_absolute_url }}">
+            {{ author.first_name }} {{ author.last_name }}
+        </a>                        
+        - <a href="{% url 'author_update' author.id %}">Update</a>
+        - <a href="{% url 'author_delete' author.id %}">Delete</a>
+      </li>
+      {% endfor %}
+
+    </ul>
+    {% else %}
+      <p>There are no authors in the database.</p>
+    {% endif %}       
+{% endblock %}
+
